@@ -1,0 +1,207 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-app-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="uk">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kubernetes Demo App</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>🚀 Kubernetes Demo Application</h1>
+                <p>Цей додаток запущено в Kubernetes кластері</p>
+            </header>
+    
+            <main>
+                <div class="info-card">
+                    <h2>Інформація про Pod</h2>
+                    <div id="pod-info">
+                        <p>Завантаження...</p>
+                    </div>
+                </div>
+        
+                <div class="info-card">
+                    <h2>Статус сервісу</h2>
+                    <div id="service-status">
+                        <p class="status-active">🟢 Сервіс активний</p>
+                    </div>
+                </div>
+        
+                <div class="info-card">
+                    <h2>Метрики</h2>
+                    <div id="metrics">
+                        <p>Час роботи: <span id="uptime">0</span> секунд</p>
+                        <p>Запити: <span id="request-count">0</span></p>
+                    </div>
+                </div>
+            </main>
+    
+            <footer>
+                <p>Kubernetes Basics Workshop © 2024</p>
+            </footer>
+        </div>
+  
+        <script src="app.js"></script>
+    </body>
+    </html>
+  style.css: |
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .info-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .info-card h2 {
+        color: #4a5568;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 8px;
+    }
+
+    .status-active {
+        color: #38a169;
+        font-weight: bold;
+    }
+
+    .status-inactive {
+        color: #e53e3e;
+        font-weight: bold;
+    }
+
+    footer {
+        text-align: center;
+        color: white;
+        opacity: 0.8;
+    }
+
+    #metrics p {
+        margin: 8px 0;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+  
+        header h1 {
+            font-size: 2rem;
+        }
+  
+        main {
+            grid-template-columns: 1fr;
+        }
+    }
+  app.js: |
+    class KubernetesApp {
+        constructor() {
+            this.startTime = Date.now();
+            this.requestCount = 0;
+            this.init();
+        }
+
+        init() {
+            this.updatePodInfo();
+            this.startMetrics();
+            this.setupEventListeners();
+        }
+
+        updatePodInfo() {
+            const podInfo = document.getElementById('pod-info');
+    
+            // Симуляція отримання інформації про Pod
+            const podData = {
+                name: 'web-app-pod-' + Math.floor(Math.random() * 1000),
+                namespace: 'default',
+                status: 'Running',
+                ip: '10.244.' + Math.floor(Math.random() * 255) + '.' + Math.floor(Math.random() * 255),
+                node: 'minikube'
+            };
+
+            podInfo.innerHTML = `
+                <p><strong>Ім'я Pod:</strong> ${podData.name}</p>
+                <p><strong>Namespace:</strong> ${podData.namespace}</p>
+                <p><strong>Статус:</strong> <span class="status-active">${podData.status}</span></p>
+                <p><strong>IP адреса:</strong> ${podData.ip}</p>
+                <p><strong>Вузол:</strong> ${podData.node}</p>
+            `;
+        }
+
+        startMetrics() {
+            setInterval(() => {
+                const uptime = Math.floor((Date.now() - this.startTime) / 1000);
+                document.getElementById('uptime').textContent = uptime;
+                document.getElementById('request-count').textContent = this.requestCount;
+            }, 1000);
+        }
+
+        setupEventListeners() {
+            // Симуляція запитів
+            setInterval(() => {
+                this.requestCount++;
+            }, 3000);
+        }
+    }
+
+    // Ініціалізація додатку при завантаженні сторінки
+    document.addEventListener('DOMContentLoaded', () => {
+        new KubernetesApp();
+    });

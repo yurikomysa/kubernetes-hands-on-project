@@ -1,0 +1,3 @@
+kubectl describe pod <pod-name>
+kubectl logs <pod-name>
+kubectl get events

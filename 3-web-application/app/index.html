@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Demo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Kubernetes Demo Application</h1>
+            <p>Цей додаток запущено в Kubernetes кластері</p>
+        </header>
+  
+        <main>
+            <div class="info-card">
+                <h2>Інформація про Pod</h2>
+                <div id="pod-info">
+                    <p>Завантаження...</p>
+                </div>
+            </div>
+    
+            <div class="info-card">
+                <h2>Статус сервісу</h2>
+                <div id="service-status">
+                    <p class="status-active">🟢 Сервіс активний</p>
+                </div>
+            </div>
+    
+            <div class="info-card">
+                <h2>Метрики</h2>
+                <div id="metrics">
+                    <p>Час роботи: <span id="uptime">0</span> секунд</p>
+                    <p>Запити: <span id="request-count">0</span></p>
+                </div>
+            </div>
+        </main>
+  
+        <footer>
+            <p>Kubernetes Basics Workshop © 2024</p>
+        </footer>
+    </div>
+  
+    <script src="app.js"></script>
+</body>
+</html>

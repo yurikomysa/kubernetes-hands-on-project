@@ -90,7 +90,7 @@ kubernetes-hands-on-project/
 
 ```bash
 # Клонування проекту
-git clone <repository-url>
+git clone https://github.com/yurikomysa/kubernetes-hands-on-project.git
 cd kubernetes-hands-on-project
 
 # Надання прав на виконання скриптів
